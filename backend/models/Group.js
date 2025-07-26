@@ -17,7 +17,7 @@ const groupSchema = new mongoose.Schema(
     code: {
       type: String,
       unique: true,
-      sparse: true // Allows null values while maintaining uniqueness
+      sparse: true 
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -50,7 +50,7 @@ const groupSchema = new mongoose.Schema(
 // Indexes for better query performance
 groupSchema.index({ createdBy: 1 });
 groupSchema.index({ members: 1 });
-groupSchema.index({ code: 1 });
+// Remove the duplicate index on code since it's already defined with unique: true
 groupSchema.index({ name: 'text', description: 'text' });
 
 // Pre-save middleware to generate group code

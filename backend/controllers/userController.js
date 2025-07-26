@@ -1,31 +1,28 @@
-import bcrypt from "bcrypt";
-import jsonwebtoken from "jsonwebtoken";
-// import User from "../models/User.js";
+import User from "../models/User.js";
 
-export const register = async (req, res) => {
+// Get current user profile
+export const getUserProfile = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, password: hashedPassword });
-    await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+    const user = await User.findById(req.user._id).populate("groups");
+    res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Failed to fetch user profile" });
   }
 };
 
-export const login = async (req, res) => {
+// Update user profile
+export const updateUserProfile = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-    res.json({ token });
+    const { username, email } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { username, email },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Failed to update user profile" });
   }
 };

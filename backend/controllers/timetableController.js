@@ -1,33 +1,42 @@
 import Timetable from "../models/Timetable.js";
 
-// Create a timetable
-export const createTimetable = async (req, res) => {
+// Create a timetable entry
+export const createTimetableEntry = async (req, res) => {
   try {
-    const { userId, schedule } = req.body;
+    const { title, startTime, endTime, description } = req.body;
 
-    // Create a new timetable
-    const timetable = new Timetable({ userId, schedule });
-    await timetable.save();
+    const timetableEntry = new Timetable({
+      title,
+      startTime,
+      endTime,
+      description,
+      userId: req.user._id,
+    });
 
-    res.status(201).json(timetable);
+    await timetableEntry.save();
+    res.status(201).json(timetableEntry);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Failed to create timetable entry" });
   }
 };
 
-// Get a user's timetable
-export const getTimetable = async (req, res) => {
+// Get all timetable entries for a user
+export const getUserTimetables = async (req, res) => {
   try {
-    const { userId } = req.params;
-
-    // Find the timetable by userId
-    const timetable = await Timetable.findOne({ userId });
-    if (!timetable) {
-      return res.status(404).json({ error: "Timetable not found" });
-    }
-
-    res.json(timetable);
+    const timetables = await Timetable.find({ userId: req.user._id });
+    res.status(200).json(timetables);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Failed to fetch timetables" });
+  }
+};
+
+// Delete a timetable entry
+export const deleteTimetableEntry = async (req, res) => {
+  try {
+    const { timetableId } = req.params;
+    await Timetable.findByIdAndDelete(timetableId);
+    res.status(200).json({ message: "Timetable entry deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete timetable entry" });
   }
 };

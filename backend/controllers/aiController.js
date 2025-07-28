@@ -1,11 +1,9 @@
 import axios from "axios";
 import Assignment from "../models/Assignment.js";
 
-
 export const generateAssignment = async (req, res) => {
   try {
     const { topic, createdBy } = req.body;
-
     
     const response = await axios.post(
       "https://api.openai.com/v1/completions ",

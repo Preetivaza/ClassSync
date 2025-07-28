@@ -54,8 +54,12 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use("/api/timetable",timeTableRoutes);
 app.use("/api/groups",groups);
+<<<<<<< HEAD
 app.use("/api/uploads", express.static("uploads"));
 app.use("/api/uploads", express.static("uploads"));
+=======
+
+>>>>>>> 622a63b06775f8498894f46684bbc9b82cb8a236
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

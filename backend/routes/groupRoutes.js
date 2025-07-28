@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import express from "express";
 // import {
 //   createGroup,
@@ -52,6 +53,8 @@
 
 // // export default router;
 
+=======
+>>>>>>> 622a63b06775f8498894f46684bbc9b82cb8a236
 // routes/groupRoutes.js
 import express from "express";
 import {
@@ -75,7 +78,10 @@ const router = express.Router();
 // Public Routes
 router.get("/code/:code", getGroupByCode);
 router.get("/search", searchPublicGroups);
+<<<<<<< HEAD
 router.post("/groups", protect, createGroup);
+=======
+>>>>>>> 622a63b06775f8498894f46684bbc9b82cb8a236
 
 // Protected Routes (require authentication)
 router.post("/", protect, createGroup);
@@ -83,12 +89,19 @@ router.get("/:id", protect, getGroupById);
 router.put("/:id", protect, updateGroup);
 router.delete("/:id", protect, deleteGroup);
 router.get("/", protect, getUserGroups);
+<<<<<<< HEAD
 router.get("/users", protect, getUserGroups);
 
 router.get("/:id/members", protect, getGroupMembers);
 router.post("/:id/members", protect, addMemberToGroup);
 
 // FIXED: Typo corrected - removeMemberToGroup -> removeMemberFromGroup
+=======
+router.get("/:id/members", protect, getGroupMembers);
+router.post("/:id/members", protect, addMemberToGroup);
+
+
+>>>>>>> 622a63b06775f8498894f46684bbc9b82cb8a236
 router.delete("/:id/members/:userId", protect, removeMemberFromGroup);
 
 router.post("/:id/join", protect, joinGroupByCode);
